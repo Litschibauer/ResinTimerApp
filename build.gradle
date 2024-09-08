@@ -20,12 +20,11 @@ application {
 tasks {
     shadowJar {
         manifest {
-            attributes["Main-Class"] to "HarzTimerAppKt"
+            attributes["Main-Class"] = "HarzTimerAppKt"
         }
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        from(sourceSets["main"].output)
-        from({
-            configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) }
-        })
+        from {
+            configurations.getByName("runtimeClasspath").map { if (it.isDirectory) it else zipTree(it) }
+        }
     }
 }

@@ -1,0 +1,31 @@
+plugins {
+    id("org.jetbrains.kotlin.jvm") version "1.9.0"
+    id("application")
+    id("com.github.johnrengelman.shadow") version "8.1.0"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("org.openjfx:javafx-controls:18.0.1")
+    implementation("org.openjfx:javafx-web:18.0.1")
+}
+
+application {
+    mainClass.set("HarzTimerAppKt")
+}
+
+tasks {
+    shadowJar {
+        manifest {
+            attributes["Main-Class"] to "HarzTimerAppKt"
+        }
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        from(sourceSets["main"].output)
+        from({
+            configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) }
+        })
+    }
+}

@@ -1,0 +1,97 @@
+/* General Styles */
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding-bottom: 60px;  /* Adds space for the footer on small screens */
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: 600;
+}
+
+/* Title Styling */
+.title_top {
+    font-weight: 700;
+    font-size: 25px;
+    margin-bottom: -1.5rem;
+    margin-top: 2rem;
+    visibility: hidden; /* Initially hidden, will be made visible dynamically */
+}
+
+.title_bottom {
+    font-size: 100px;
+    font-weight: 300; /* Changed 'light' to '300' as 'light' is not a valid value */
+    letter-spacing: -0.15rem;
+    margin-bottom: -1rem;
+}
+
+/* Center content */
+.row {
+    text-align: center;
+}
+
+/* Button and Input Styles */
+button, button:focus, input {
+    border: solid 1px black;
+}
+
+.col {
+    max-width: 600px;
+    margin: auto;
+}
+
+.jumbotron {
+    padding: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Footer Styles */
+.page-footer {
+    background-color: rgb(233, 233, 233);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensures footer stays on top of other elements */
+}
+
+/* Media Query for Medium Screens */
+@media only screen and (max-width: 767px) {
+    .title_top {
+        font-size: 20px;
+    }
+    .title_bottom {
+        font-size: 80px;
+    }
+
+    .btn {
+        width: 100%;
+        font-size: 1rem;
+    }
+}
+
+/* Media Query for Small Screens */
+@media only screen and (max-width: 480px) {
+    .title_top {
+        font-size: 15px;
+    }
+    .title_bottom {
+        font-size: 60px;
+    }
+
+    .footer-text {
+        font-size: 0.8rem;
+        padding: 0 1rem;
+    }
+
+    .btn {
+        width: 100%;
+        font-size: 1rem;
+    }
+}

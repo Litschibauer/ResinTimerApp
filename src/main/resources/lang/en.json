@@ -1,0 +1,14 @@
+{
+  "page_title": "Resin Timer - Litschibauer",
+  "resin_input_label": "Current Resin (0 - 200)",
+  "calculate_button": "Calculate",
+  "current_resin_title": "Current Resin",
+  "refill_time_title": "Fully refilled in",
+  "refill_date_title": "at",
+  "download_button": "Download Calender Reminder (only for iOS)",
+  "alert_no_calculation": "Please calculate resin first and try again.",
+  "resin_full_summary": "Resin Full",
+  "resin_full_description": "Your resin in Genshin Impact will be fully refilled.",
+  "location": "Zurich",
+  "reminder": "Reminder"
+}

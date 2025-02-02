@@ -1,14 +1,53 @@
 const DEBUG = false;
 const RESIN_LIMIT = 200;
-const RECHARGE_INTERVAL = 8; //minutes
-let icsContent = ""; // Global variable to store the ICS content
+const RECHARGE_INTERVAL = 8; // Minuten
+let icsContent = ""; // Globale Variable f?r den ICS-Inhalt
 
-// Update HTML
+// Variablen f?r Sprachumschaltung
+let currentLanguage = "de"; // Standardsprache
+let langData = {};
+
+// Funktion zum Laden der Sprachdatei
+function setLanguage() {
+    currentLanguage = document.getElementById('language_selector').value;
+    fetch('lang/' + currentLanguage + '.json')
+        .then(response => response.json())
+        .then(data => {
+            langData = data;
+            updateUIText();
+        })
+        .catch(error => console.error('Fehler beim Laden der Sprachdatei:', error));
+}
+
+// Aktualisiert statische Texte der Benutzeroberfl?che
+function updateUIText() {
+    document.title = langData.page_title || document.title;
+    document.getElementById("basic-addon1").innerText =
+        (langData.resin_input_label || "Aktuelles Harz (0 - 200)").replace("200", RESIN_LIMIT);
+    document.getElementById("resin_button").innerText = langData.calculate_button || "Berechnen";
+
+    let titles = document.getElementsByClassName("title_top");
+    if (titles.length >= 3) {
+        titles[0].innerText = langData.current_resin_title || "Aktuelles Harz";
+        titles[1].innerText = langData.refill_time_title || "Vollst?ndig aufgef?llt in";
+        titles[2].innerText = langData.refill_date_title || "um";
+    }
+    document.getElementById("download_button").innerText = langData.download_button || "Download Reminder";
+}
+
+// Sprachdatei beim Laden der Seite initial laden
+document.addEventListener("DOMContentLoaded", function() {
+    setLanguage();
+});
+
+// Setzt den Maximalwert f?r das Harz-Feld
 document.querySelector("#resin").setAttribute("max", RESIN_LIMIT);
 document.querySelector("#basic-addon1").innerHTML = `Aktuelles Harz (0 - ${RESIN_LIMIT})`;
 
-// Main
+// Fokus auf das Eingabefeld setzen
 document.querySelector("#resin").focus();
+
+// Hauptfunktion: Berechnung
 function calculate(resin, start_time) {
     const time_diff = parseInt(Math.abs(new Date().getTime() - start_time.getTime()) / 1000);
     const minutes_to_refill = (RESIN_LIMIT - resin) * RECHARGE_INTERVAL;
@@ -28,8 +67,12 @@ function calculate(resin, start_time) {
 
     const zurich_time = moment.tz(start_time, "Europe/Zurich").add(H_start, "hours").add(M_start, "minutes");
 
-    // Set locale to German and format the date
-    zurich_time.locale('de'); // Set moment.js to German locale
+    // Setze das Moment.js-Locale basierend auf der gew?hlten Sprache
+    if (currentLanguage === "de") {
+        zurich_time.locale('de');
+    } else {
+        zurich_time.locale('en');
+    }
     document.querySelector("#refill_date").innerHTML = zurich_time.format("DD. MMMM YYYY, HH:mm:ss");
     document.title = cur_res + " Resin | " + H_cur + "h " + M_cur + "m " + " left";
 
@@ -38,33 +81,35 @@ function calculate(resin, start_time) {
         titles[i].style.visibility = "visible";
     }
 
-    generateICSContent(zurich_time); // Generate ICS content
+    generateICSContent(zurich_time);
 }
 
+// ICS-Inhalt generieren
 function generateICSContent(refill_time) {
     const formattedStart = refill_time.format("YYYYMMDDTHHmmss");
-    const formattedEnd = refill_time.add(1, 'minutes').format("YYYYMMDDTHHmmss");
+    const formattedEnd = refill_time.clone().add(1, 'minutes').format("YYYYMMDDTHHmmss");
 
     icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
-SUMMARY:Resin Full
-DESCRIPTION:Your resin in Genshin Impact will be fully refilled.
+SUMMARY:${langData.resin_full_summary || "Resin Full"}
+DESCRIPTION:${langData.resin_full_description || "Your resin in Genshin Impact will be fully refilled."}
 DTSTART:${formattedStart}
 DTEND:${formattedEnd}
-LOCATION:Zurich
+LOCATION:${langData.location || "Zurich"}
 BEGIN:VALARM
 TRIGGER:-PT10M
 ACTION:DISPLAY
-DESCRIPTION:Reminder
+DESCRIPTION:${langData.reminder || "Reminder"}
 END:VALARM
 END:VEVENT
 END:VCALENDAR`;
 }
 
+// ICS-Datei herunterladen
 function downloadICS() {
     if (icsContent === "") {
-        alert("Bitte berechne zuerst das Harz und versuche es erneut."); // Alert if ICS content is not generated yet
+        alert(langData.alert_no_calculation || "Bitte berechne zuerst das Harz und versuche es erneut.");
         return;
     }
 
@@ -78,12 +123,12 @@ function downloadICS() {
     document.body.removeChild(link);
 }
 
-// Loop
+// Schleife zur fortlaufenden Berechnung
 var refresh;
 function calculateInit() {
     let resin_obj = document.querySelector("#resin");
     const resin = resin_obj.value;
-    if (resin < 0 || resin > RESIN_LIMIT || resin == "") return;
+    if (resin < 0 || resin > RESIN_LIMIT || resin === "") return;
 
     clearInterval(refresh);
     const start_time = new Date();
@@ -92,9 +137,9 @@ function calculateInit() {
     resin_obj.value = "";
 }
 
-// On enter key press 
+// Berechnung per Enter-Taste ausl?sen
 document.querySelector("#resin").onkeypress = function (e) {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
         calculateInit();
     }
 }

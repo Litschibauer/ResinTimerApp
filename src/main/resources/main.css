@@ -21,7 +21,7 @@ h1 {
 
 .title_bottom {
     font-size: 100px;
-    font-weight: 300; /* Changed 'light' to '300' as 'light' is not a valid value */
+    font-weight: 300;
     letter-spacing: -0.15rem;
     margin-bottom: -1rem;
 }

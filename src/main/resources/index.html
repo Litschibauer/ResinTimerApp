@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harz-Timer - Litschibauer</title>
+    <title>Resin-Timer - Litschibauer</title>
     <meta name="description" content="Ein Live-Zähler, der anzeigt, wann dein Harz in Genshin Impact wieder aufgefüllt wird.">
     <meta name="keywords" content="genshin impact, harz, timer, zähler, auffüllen, nachfüllen">
 
@@ -11,28 +11,29 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600;700;800&display=swap&subset=latin-ext" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
 <div class="jumbotron text-center">
-    <h1>Genshin Impact</h1>
-    <h2>Harz-Timer</h2>
+    <h1>Genshin Impact</h2>
+        <h2>Resin-Timer</h2>
 </div>
 
-<!-- Sprachwahl mit Icon (über Bootstrap-Input-Group) -->
+<!-- Sprachwahl mit Icon -->
 <div class="container mb-3">
     <div class="row justify-content-end">
         <div class="col-auto">
             <div class="input-group">
                 <div class="input-group-prepend">
-            <span class="input-group-text">
-              <img src="/icons/lang.jpg" alt="lang" style="width: 24px; height: 24px;">
-            </span>
+        <span class="input-group-text">
+            <img id="flag_icon" src="/src/main/resources/icons/flags/de.svg" alt="lang" style="width: 24px; height: 16px;">
+        </span>
                 </div>
                 <select id="language_selector" class="form-control" onchange="setLanguage()">
-                    <option value="de">Deutsch</option>
-                    <option value="en">English</option>
+                    <option value="de" data-flag="de.svg">Deutsch</option>
+                    <option value="en" data-flag="gb.svg">English</option>
+                    <option value="fr" data-flag="fr.svg">Français</option>
                 </select>
             </div>
         </div>
@@ -45,7 +46,7 @@
         <div class="col">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Aktuelles Harz (0 - 200)</span>
+                    <span class="input-group-text" id="actual_resin">Aktuelles Resin (0 - 200)</span>
                 </div>
                 <input type="number" class="form-control" id="resin" min="0" max="200">
                 <button class="btn btn-outline-dark" id="resin_button" onclick="calculateInit()">Berechnen</button>
@@ -83,20 +84,15 @@
 
 <footer class="page-footer fixed-bottom">
     <div class="text-center py-3">
-        Kontakt: litschibauer@litschibauer.de | Diese Webseite ist nicht mit miHoYo verbunden.
+        Kontakt: <a href="mailto:litschibauer@litschibauer.de">litschibauer@litschibauer.de</a> | Diese Webseite ist nicht mit miHoYo verbunden.
     </div>
 </footer>
 
 <!-- JavaScript Libraries -->
-<!-- Moment.js und Moment Timezone -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
-
-<!-- jQuery und Bootstrap Bundle (für den Dropdown) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdjj5q1M/nO1usF2FFwWv5I5wP6qR8t8i62K6dXv8I9DpOqRS/h+1d4uE3g3Pl" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12uHq+1s6ceNZQa8IpTk5gyw8M3eUj8YZClPFZ1qN1lC19+N" crossorigin="anonymous"></script>
-
-<!-- Eigene Skripte -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="calendar.js"></script>
 <script src="main.js"></script>
 </body>

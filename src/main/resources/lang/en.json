@@ -10,5 +10,6 @@
   "resin_full_summary": "Resin Full",
   "resin_full_description": "Your resin in Genshin Impact will be fully refilled.",
   "location": "Zurich",
-  "reminder": "Reminder"
+  "reminder": "Reminder",
+  "actual_resin": "Current Resin"
 }

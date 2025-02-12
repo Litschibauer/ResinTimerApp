@@ -1,3 +1,10 @@
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js")
+            .then((reg) => console.log("Service Worker registriert:", reg))
+            .catch((err) => console.log("Service Worker Fehler:", err));
+    });
+}
 const DEBUG = false;
 const RESIN_LIMIT = 200;
 const RECHARGE_INTERVAL = 8; //minutes

@@ -1,0 +1,13 @@
+{
+  "name": "Resin Timer App",
+  "short_name": "ResinTimer",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "icons/app-icon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpg"
+    }
+  ]
+}
